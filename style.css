@@ -1,0 +1,136 @@
+/* ==========================
+   NAVIGOUPA
+   Conditions de navigation
+   ========================== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+
+    --primary: #0A6EBD;
+    --secondary: #003049;
+    --background: #EEF6FB;
+    --card: rgba(255,255,255,.35);
+    --text: #0F172A;
+    --shadow: rgba(0,0,0,.15);
+
+}
+
+body {
+
+    font-family: Arial, Helvetica, sans-serif;
+
+    background: linear-gradient(
+        180deg,
+        #0A6EBD 0%,
+        #4FA9E6 40%,
+        #EEF6FB 100%
+    );
+
+    color: var(--text);
+
+    min-height: 100vh;
+
+}
+
+header {
+
+    padding: 24px 20px;
+    text-align: center;
+    color: white;
+
+}
+
+header h1 {
+
+    font-size: 2rem;
+
+}
+
+header p {
+
+    margin-top: 8px;
+    opacity: .9;
+
+}
+
+#date {
+
+    margin-top: 10px;
+    font-size: .9rem;
+
+}
+
+main {
+
+    padding: 15px;
+
+}
+
+.card {
+
+    background: var(--card);
+
+    backdrop-filter: blur(12px);
+
+    border-radius: 18px;
+
+    padding: 18px;
+
+    margin-bottom: 18px;
+
+    box-shadow: 0 6px 18px var(--shadow);
+
+}
+
+.card h2 {
+
+    margin-bottom: 12px;
+
+    color: var(--secondary);
+
+}
+
+#weather,
+#tides,
+#marine {
+
+    font-size: 1rem;
+
+    line-height: 1.6;
+
+}
+
+footer {
+
+    text-align: center;
+
+    padding: 20px;
+
+    color: #555;
+
+    font-size: .9rem;
+
+}
+
+/* Mobile */
+
+@media (max-width:600px){
+
+    header h1{
+
+        font-size:1.7rem;
+
+    }
+
+    .card{
+
+        padding:16px;
+
+    }
+
+}
