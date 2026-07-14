@@ -5,97 +5,78 @@
 
     <meta charset="UTF-8">
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
     <title>Navigoupa</title>
 
-    <meta
-        name="description"
-        content="Conditions de navigation">
+    <meta name="description"
+          content="Conditions de navigation">
 
-    <meta
-        name="theme-color"
-        content="#0A6EBD">
+    <meta name="theme-color"
+          content="#0A6EBD">
 
-    <link
-        rel="manifest"
-        href="manifest.webmanifest">
+    <link rel="manifest"
+          href="manifest.webmanifest">
 
-    <link
-        rel="stylesheet"
-        href="style.css">
+    <link rel="stylesheet"
+          href="style.css">
 
 </head>
 
 <body>
 
-    <header>
+<header>
 
-        <h1>🧭 Navigoupa</h1>
+    <h1>🧭 Navigoupa</h1>
 
-        <p>Conditions de navigation</p>
+    <p>Conditions de navigation</p>
 
-        <div id="date"></div>
+    <div id="date"></div>
 
-    </header>
+</header>
 
-    <main>
+<main>
 
-        <section class="card">
+    <section class="card">
 
-            <h2>🌤 Météo</h2>
+        <h2>🌤 Météo</h2>
 
-            <div id="weather">
+        <div id="weather">
+            Chargement...
+        </div>
 
-                Chargement...
+    </section>
 
-            </div>
+    <section class="card">
 
-        </section>
+        <h2>🌊 Marées Royan</h2>
 
-        <section class="card">
+        <div id="tides">
+            Chargement...
+        </div>
 
-            <h2>🌊 Marées Royan</h2>
+    </section>
 
-            <div id="tides">
+    <section class="card">
 
-                Chargement...
+        <h2>⛵ Bulletin côtier</h2>
 
-            </div>
+        <div id="marine">
+            Chargement...
+        </div>
 
-        </section>
+    </section>
 
-        <section class="card">
+</main>
 
-            <h2>⛵ Bulletin côtier</h2>
+<footer>
 
-            <div id="marine">
+    <small id="lastUpdate"></small>
 
-                Chargement...
+</footer>
 
-            </div>
-
-        </section>
-
-    </main>
-
-    <footer>
-
-        <small id="lastUpdate">
-
-            --
-
-        </small>
-
-    </footer>
-
-    <script
-        type="module"
-        src="js/app.js">
-    </script>
+<script type="module" src="js/app.js"></script>
 
 </body>
-
 </html>
