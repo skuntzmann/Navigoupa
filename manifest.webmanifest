@@ -1,0 +1,11 @@
+{
+  "name": "Navigoupa",
+  "short_name": "Navigoupa",
+  "description": "Conditions de navigation",
+  "start_url": "./",
+  "display": "standalone",
+  "background_color": "#EEF6FB",
+  "theme_color": "#0A6EBD",
+  "orientation": "portrait",
+  "icons": []
+}
