@@ -1,125 +1,164 @@
-/* ==========================
+/* ==========================================
    NAVIGOUPA
-   Conditions de navigation
-   ========================== */
+   Version 0.1
+   ========================================== */
 
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
 }
 
-:root {
+:root{
 
-    --primary: #0A6EBD;
-    --secondary: #003049;
-    --background: #EEF6FB;
-    --card: rgba(255,255,255,.35);
-    --text: #0F172A;
-    --shadow: rgba(0,0,0,.15);
+    --blue:#0A6EBD;
+    --dark:#003049;
+    --light:#EEF6FB;
+    --glass:rgba(255,255,255,.35);
 
 }
 
-body {
+body{
 
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:Arial,Helvetica,sans-serif;
 
-    background: linear-gradient(
+    background:linear-gradient(
         180deg,
         #0A6EBD 0%,
-        #4FA9E6 40%,
+        #4EA7E7 45%,
         #EEF6FB 100%
     );
 
-    color: var(--text);
+    color:#222;
 
-    min-height: 100vh;
-
-}
-
-header {
-
-    padding: 24px 20px;
-    text-align: center;
-    color: white;
+    min-height:100vh;
 
 }
 
-header h1 {
+/* ========================= */
 
-    font-size: 2rem;
+header{
 
-}
+    text-align:center;
 
-header p {
+    color:white;
 
-    margin-top: 8px;
-    opacity: .9;
-
-}
-
-#date {
-
-    margin-top: 10px;
-    font-size: .9rem;
+    padding:25px 20px;
 
 }
 
-main {
+header h1{
 
-    padding: 15px;
-
-}
-
-.card {
-
-    background: var(--card);
-
-    backdrop-filter: blur(12px);
-
-    border-radius: 18px;
-
-    padding: 18px;
-
-    margin-bottom: 18px;
-
-    box-shadow: 0 6px 18px var(--shadow);
+    font-size:2rem;
 
 }
 
-.card h2 {
+header p{
 
-    margin-bottom: 12px;
+    margin-top:8px;
 
-    color: var(--secondary);
+    opacity:.9;
 
 }
 
-#weather,
+#today{
+
+    margin-top:12px;
+
+    font-size:.95rem;
+
+}
+
+/* ========================= */
+
+main{
+
+    width:min(900px,95%);
+
+    margin:auto;
+
+}
+
+/* ========================= */
+
+.card{
+
+    background:var(--glass);
+
+    backdrop-filter:blur(10px);
+
+    border-radius:18px;
+
+    padding:20px;
+
+    margin-bottom:18px;
+
+    box-shadow:0 6px 15px rgba(0,0,0,.15);
+
+}
+
+.card h2{
+
+    margin-bottom:15px;
+
+    color:var(--dark);
+
+}
+
+/* ========================= */
+
+#weather{
+
+    line-height:1.8;
+
+    font-size:1rem;
+
+}
+
+.weather-temp{
+
+    font-size:2rem;
+
+    font-weight:bold;
+
+    margin-bottom:10px;
+
+}
+
+.weather-line{
+
+    margin:4px 0;
+
+}
+
+/* ========================= */
+
 #tides,
-#marine {
+#marine{
 
-    font-size: 1rem;
+    color:#555;
 
-    line-height: 1.6;
-
-}
-
-footer {
-
-    text-align: center;
-
-    padding: 20px;
-
-    color: #555;
-
-    font-size: .9rem;
+    line-height:1.7;
 
 }
 
-/* Mobile */
+/* ========================= */
 
-@media (max-width:600px){
+footer{
+
+    text-align:center;
+
+    padding:20px;
+
+    color:#444;
+
+    font-size:.9rem;
+
+}
+
+/* ========================= */
+
+@media(max-width:600px){
 
     header h1{
 
@@ -130,6 +169,12 @@ footer {
     .card{
 
         padding:16px;
+
+    }
+
+    .weather-temp{
+
+        font-size:1.8rem;
 
     }
 
