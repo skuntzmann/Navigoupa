@@ -1,7 +1,6 @@
 // ==========================================
 // NAVIGOUPA
 // Application principale
-// Version 0.1
 // ==========================================
 
 document.addEventListener("DOMContentLoaded", init);
@@ -16,6 +15,8 @@ async function init() {
 
     await chargerMeteo();
 
+    await chargerMarees();
+
 }
 
 // ==========================================
@@ -26,10 +27,12 @@ function afficherDate() {
 
     document.getElementById("today").textContent =
         maintenant.toLocaleDateString("fr-FR", {
+
             weekday: "long",
             day: "numeric",
             month: "long",
             year: "numeric"
+
         });
 
 }
@@ -50,7 +53,7 @@ async function chargerMeteo() {
 
     const zone = document.getElementById("weather");
 
-    zone.innerHTML = "Chargement de la météo...";
+    zone.innerHTML = "Chargement...";
 
     try {
 
@@ -65,7 +68,9 @@ async function chargerMeteo() {
         console.error(e);
 
         zone.innerHTML =
-            "<strong>Erreur :</strong><br>" +
+
+            "<strong>Erreur météo</strong><br>" +
+
             e.message;
 
     }
@@ -82,7 +87,9 @@ function afficherMeteo(data) {
 
     const coucher = data.daily.sunset[0].substring(11,16);
 
-    document.getElementById("weather").innerHTML = `
+    document.getElementById("weather").innerHTML =
+
+        `
 
         <div class="weather-temp">
 
@@ -92,29 +99,72 @@ function afficherMeteo(data) {
         </div>
 
         <div class="weather-line">
-            💨 Vent : ${current.wind_speed_10m} km/h (${windDirection(current.wind_direction_10m)})
+
+            💨 Vent :
+            ${current.wind_speed_10m} km/h
+            (${windDirection(current.wind_direction_10m)})
+
         </div>
 
         <div class="weather-line">
-            🌬 Rafales : ${current.wind_gusts_10m} km/h
+
+            🌬 Rafales :
+            ${current.wind_gusts_10m} km/h
+
         </div>
 
         <div class="weather-line">
-            💧 Humidité : ${current.relative_humidity_2m} %
+
+            💧 Humidité :
+            ${current.relative_humidity_2m} %
+
         </div>
 
         <div class="weather-line">
-            📈 Pression : ${current.pressure_msl} hPa
+
+            📈 Pression :
+            ${current.pressure_msl} hPa
+
         </div>
 
         <div class="weather-line">
-            🌅 Lever : ${lever}
+
+            🌅 Lever :
+            ${lever}
+
         </div>
 
         <div class="weather-line">
-            🌇 Coucher : ${coucher}
+
+            🌇 Coucher :
+            ${coucher}
+
         </div>
 
-    `;
+        `;
+
+}
+
+// ==========================================
+
+async function chargerMarees() {
+
+    try {
+
+        const data = await loadTides();
+
+        displayTides(data);
+
+    }
+
+    catch (e) {
+
+        console.error(e);
+
+        document.getElementById("tides").innerHTML =
+
+            "Impossible de charger les marées.";
+
+    }
 
 }
