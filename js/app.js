@@ -1,17 +1,28 @@
-// ======================================
+// ==========================================
 // NAVIGOUPA
+// Version 0.1
 // Application principale
-// ======================================
+// ==========================================
 
-import { loadWeather } from "./weather.js";
+document.addEventListener("DOMContentLoaded", init);
 
-// --------------------------------------
-// Date
-// --------------------------------------
+// ==========================================
 
-function updateDate() {
+async function init() {
 
-    const today = new Date();
+    afficherDate();
+
+    afficherHeureMiseAJour();
+
+    await chargerMeteo();
+
+}
+
+// ==========================================
+
+function afficherDate() {
+
+    const maintenant = new Date();
 
     const options = {
 
@@ -22,91 +33,120 @@ function updateDate() {
 
     };
 
-    document.getElementById("date").textContent =
-        today.toLocaleDateString("fr-FR", options);
+    document.getElementById("today").textContent =
+        maintenant.toLocaleDateString("fr-FR", options);
 
 }
 
-// --------------------------------------
-// Heure de mise à jour
-// --------------------------------------
+// ==========================================
 
-function updateLastUpdate() {
+function afficherHeureMiseAJour() {
 
-    const now = new Date();
+    const maintenant = new Date();
 
     document.getElementById("lastUpdate").textContent =
         "Dernière mise à jour : " +
-        now.toLocaleTimeString("fr-FR");
+        maintenant.toLocaleTimeString("fr-FR");
 
 }
 
-// --------------------------------------
-// Affichage météo
-// --------------------------------------
+// ==========================================
 
-function displayWeather(data) {
+async function chargerMeteo() {
 
-    const current = data.current;
-    const daily = data.daily;
+    const zone = document.getElementById("weather");
 
-    document.getElementById("weather").innerHTML = `
-
-        🌡 Température : <strong>${current.temperature_2m} °C</strong><br>
-
-        💨 Vent : ${current.wind_speed_10m} km/h<br>
-
-        🧭 Direction : ${current.wind_direction_10m}°<br>
-
-        🌬 Rafales : ${current.wind_gusts_10m} km/h<br>
-
-        💧 Humidité : ${current.relative_humidity_2m}%<br>
-
-        📈 Pression : ${current.pressure_msl} hPa<br>
-
-        🌅 Lever : ${daily.sunrise[0].substring(11,16)}<br>
-
-        🌇 Coucher : ${daily.sunset[0].substring(11,16)}
-
-    `;
-
-}
-
-// --------------------------------------
-// Initialisation
-// --------------------------------------
-
-async function init() {
-
-    updateDate();
-
-    updateLastUpdate();
+    zone.innerHTML = "Chargement de la météo...";
 
     try {
 
-        const weather = await loadWeather();
+        const data = await loadWeather();
 
-        displayWeather(weather);
+        afficherMeteo(data);
 
     }
 
-    catch (error) {
+    catch(error){
 
         console.error(error);
 
-        document.getElementById("weather").innerHTML =
-            "❌ Impossible de charger la météo.";
+        zone.innerHTML =
+
+            "<strong>Impossible de récupérer la météo.</strong><br><br>" +
+
+            error.message;
 
     }
 
-    document.getElementById("tides").innerHTML =
-        "⌛ En développement";
-
-    document.getElementById("marine").innerHTML =
-        "⌛ En développement";
-
 }
 
-// --------------------------------------
+// ==========================================
 
-document.addEventListener("DOMContentLoaded", init);
+function afficherMeteo(data){
+
+    const current = data.current;
+
+    const daily = data.daily;
+
+    const lever = daily.sunrise[0].substring(11,16);
+
+    const coucher = daily.sunset[0].substring(11,16);
+
+    document.getElementById("weather").innerHTML =
+
+        `
+
+        <div class="weather-temp">
+
+            ${weatherIcon(current.weather_code)}
+
+            ${current.temperature_2m} °C
+
+        </div>
+
+        <div class="weather-line">
+
+            💨 Vent :
+            ${current.wind_speed_10m} km/h
+            (${windDirection(current.wind_direction_10m)})
+
+        </div>
+
+        <div class="weather-line">
+
+            🌬 Rafales :
+            ${current.wind_gusts_10m} km/h
+
+        </div>
+
+        <div class="weather-line">
+
+            💧 Humidité :
+            ${current.relative_humidity_2m} %
+
+        </div>
+
+        <div class="weather-line">
+
+            📈 Pression :
+            ${current.pressure_msl} hPa
+
+        </div>
+
+        <div class="weather-line">
+
+            🌅 Lever :
+            ${lever}
+
+        </div>
+
+        <div class="weather-line">
+
+            🌇 Coucher :
+            ${coucher}
+
+        </div>
+
+        `;
+
+}
