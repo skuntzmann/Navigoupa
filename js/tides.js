@@ -1,30 +1,51 @@
 // ==========================================
 // NAVIGOUPA
-// Gestion des marées
+// Marées
 // Version 0.2
+// ==========================================
+
+const TIDES = {
+
+    port: "Royan",
+
+    source: "À connecter"
+
+};
+
 // ==========================================
 
 async function loadTides() {
 
+    /*
+     * En attendant la connexion à une vraie source
+     * (SHOM ou autre), on retourne une structure
+     * unique qui sera conservée dans les versions
+     * suivantes.
+     */
+
     return {
 
-        port: "Royan",
+        port: TIDES.port,
 
-        nextEvent: "PM",
+        nextEvent: "--",
 
-        time: "--:--",
+        nextTime: "--:--",
 
         coefficient: "--",
 
         height: "--",
 
-        source: "En attente de connexion"
+        remaining: "--",
+
+        source: "Connexion en cours"
 
     };
 
 }
 
-function displayTides(data){
+// ==========================================
+
+function displayTides(data) {
 
     document.getElementById("tides").innerHTML = `
 
@@ -36,31 +57,46 @@ function displayTides(data){
 
         <div class="weather-line">
 
-            Prochaine marée : <strong>${data.nextEvent}</strong>
+            Prochaine marée :
+            <strong>${data.nextEvent}</strong>
 
         </div>
 
         <div class="weather-line">
 
-            Heure : ${data.time}
+            Heure :
+            ${data.nextTime}
 
         </div>
 
         <div class="weather-line">
 
-            Coefficient : ${data.coefficient}
+            Coefficient :
+            ${data.coefficient}
 
         </div>
 
         <div class="weather-line">
 
-            Hauteur : ${data.height}
+            Hauteur :
+            ${data.height}
 
         </div>
 
         <div class="weather-line">
+
+            Temps restant :
+            ${data.remaining}
+
+        </div>
+
+        <div class="weather-line">
+
+            <small>
 
             ${data.source}
+
+            </small>
 
         </div>
 
