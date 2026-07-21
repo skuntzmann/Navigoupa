@@ -1,45 +1,21 @@
 // ==========================================
 // NAVIGOUPA
-// Marées
-// Version 0.2
+// Marées Royan
 // ==========================================
 
-const TIDES = {
-
-    port: "Royan",
-
-    source: "À connecter"
-
-};
+const TIDES_URL = "data/tides.json";
 
 // ==========================================
 
 async function loadTides() {
 
-    /*
-     * En attendant la connexion à une vraie source
-     * (SHOM ou autre), on retourne une structure
-     * unique qui sera conservée dans les versions
-     * suivantes.
-     */
+    const response = await fetch(TIDES_URL);
 
-    return {
+    if (!response.ok) {
+        throw new Error("Impossible de charger les marées.");
+    }
 
-        port: TIDES.port,
-
-        nextEvent: "--",
-
-        nextTime: "--:--",
-
-        coefficient: "--",
-
-        height: "--",
-
-        remaining: "--",
-
-        source: "Connexion en cours"
-
-    };
+    return await response.json();
 
 }
 
@@ -47,59 +23,57 @@ async function loadTides() {
 
 function displayTides(data) {
 
-    document.getElementById("tides").innerHTML = `
+    const container = document.getElementById("tides");
 
-        <div class="weather-temp">
+    if (!container) return;
 
-            🌊 ${data.port}
+    let html = "";
 
-        </div>
+    html += `<h3>🌊 ${data.port}</h3>`;
 
-        <div class="weather-line">
+    html += `<div class="weather-line">`;
 
-            Prochaine marée :
-            <strong>${data.nextEvent}</strong>
+    html += `Mise à jour : ${new Date(data.updated).toLocaleString("fr-FR")}`;
 
-        </div>
+    html += `</div>`;
 
-        <div class="weather-line">
+    html += "<br>";
 
-            Heure :
-            ${data.nextTime}
+    html += "<table class='tides-table'>";
 
-        </div>
-
-        <div class="weather-line">
-
-            Coefficient :
-            ${data.coefficient}
-
-        </div>
-
-        <div class="weather-line">
-
-            Hauteur :
-            ${data.height}
-
-        </div>
-
-        <div class="weather-line">
-
-            Temps restant :
-            ${data.remaining}
-
-        </div>
-
-        <div class="weather-line">
-
-            <small>
-
-            ${data.source}
-
-            </small>
-
-        </div>
-
+    html += `
+        <tr>
+            <th>Type</th>
+            <th>Heure</th>
+            <th>Hauteur</th>
+            <th>Coef.</th>
+        </tr>
     `;
+
+    for (const event of data.events) {
+
+        html += "<tr>";
+
+        html += `<td>${event.type}</td>`;
+
+        html += `<td>${event.time}</td>`;
+
+        html += `<td>${event.height}</td>`;
+
+        html += `<td>${event.coefficient ?? "-"}</td>`;
+
+        html += "</tr>";
+
+    }
+
+    html += "</table>";
+
+    html += `
+        <div class="weather-line" style="margin-top:15px;">
+            Source : maree.info
+        </div>
+    `;
+
+    container.innerHTML = html;
 
 }
