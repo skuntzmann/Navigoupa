@@ -25,6 +25,14 @@ jobs:
         with:
           python-version: "3.12"
 
+      - name: Installer Python
+  uses: actions/setup-python@v5
+  with:
+    python-version: "3.12"
+    
+      - name: Installer les dépendances
+        run: pip install beautifulsoup4
+
       - name: Générer tides.json
         run: python scripts/update_tides.py
 
