@@ -1,0 +1,12 @@
+{
+  "name": "navigoupa",
+  "version": "0.2.0",
+  "private": true,
+  "description": "Conditions de navigation",
+  "scripts": {
+    "update:tides": "node scripts/update_tides.js"
+  },
+  "dependencies": {
+    "cheerio": "^1.0.0"
+  }
+}
