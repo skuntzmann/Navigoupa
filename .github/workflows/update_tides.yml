@@ -10,13 +10,10 @@ permissions:
   contents: write
 
 jobs:
-
   update-tides:
-
     runs-on: ubuntu-latest
 
     steps:
-
       - name: Cloner le dépôt
         uses: actions/checkout@v4
 
@@ -25,11 +22,6 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Installer Python
-  uses: actions/setup-python@v5
-  with:
-    python-version: "3.12"
-    
       - name: Installer les dépendances
         run: pip install beautifulsoup4
 
@@ -38,7 +30,6 @@ jobs:
 
       - name: Commit automatique
         run: |
-
           git config --global user.name "github-actions[bot]"
           git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
