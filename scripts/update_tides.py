@@ -2,9 +2,10 @@
 # -*- coding: utf-8 -*-
 
 import json
-import re
 from datetime import datetime
 from urllib.request import Request, urlopen
+
+from bs4 import BeautifulSoup
 
 URL = "https://maree.info/131"
 
@@ -13,88 +14,99 @@ HEADERS = {
 }
 
 
-def download_html():
+def download():
+
     request = Request(URL, headers=HEADERS)
+
     return urlopen(request).read().decode("utf-8")
 
 
-def extract_table(html):
+def parse(html):
 
-    match = re.search(
-        r'<table[^>]*id="MareeJourDetail_0".*?</table>',
-        html,
-        re.S
-    )
+    soup = BeautifulSoup(html, "html.parser")
 
-    if not match:
-        raise Exception("Tableau des marées introuvable.")
+    table = soup.find("table", id="MareeJourDetail_0")
 
-    return match.group(0)
+    if table is None:
+        raise Exception("Table MareeJourDetail_0 introuvable.")
 
-
-def extract_events(table):
-
-    # Heures
-    times = re.findall(r'>(\d{2}h\d{2})<', table)
-
-    # Hauteurs
-    heights = re.findall(r'>(\d,\d{2}m)<', table)
-
-    # Coefficients
-    coeffs = re.findall(r'<b>(\d+)</b>', table)
+    rows = table.find_all("tr")
 
     events = []
 
-    coeff_index = 0
+    for row in rows:
 
-    for i in range(len(times)):
+        cells = row.find_all("td")
 
-        if i % 2 == 0:
+        if len(cells) < 6:
+            continue
 
-            events.append({
+        # Première colonne : BM / PM
+        types = [
+            t.strip()
+            for t in cells[0].stripped_strings
+            if t.strip() in ("BM", "PM")
+        ]
 
-                "type": "BM",
+        # Deuxième colonne : coefficients
+        coeffs = []
 
+        for item in cells[1].stripped_strings:
+
+            item = item.strip()
+
+            if item.isdigit():
+                coeffs.append(int(item))
+            else:
+                coeffs.append(None)
+
+        # Troisième colonne : heures
+        times = [
+            t.strip()
+            for t in cells[2].stripped_strings
+        ]
+
+        # Sixième colonne : hauteurs
+        heights = [
+            h.strip()
+            for h in cells[5].stripped_strings
+        ]
+
+        coef_index = 0
+
+        for i in range(min(len(types), len(times), len(heights))):
+
+            event = {
+                "type": types[i],
                 "time": times[i],
-
                 "height": heights[i]
+            }
 
-            })
+            if types[i] == "PM":
 
-        else:
+                coef = None
 
-            coef = None
+                if coef_index < len(coeffs):
+                    coef = coeffs[coef_index]
 
-            if coeff_index < len(coeffs):
+                event["coefficient"] = coef
 
-                coef = int(coeffs[coeff_index])
+                coef_index += 1
 
-                coeff_index += 1
+            events.append(event)
 
-            events.append({
-
-                "type": "PM",
-
-                "time": times[i],
-
-                "height": heights[i],
-
-                "coefficient": coef
-
-            })
+        break
 
     return events
 
 
 def main():
 
-    html = download_html()
+    html = download()
 
-    table = extract_table(html)
+    events = parse(html)
 
-    events = extract_events(table)
-
-    result = {
+    output = {
 
         "port": "Royan",
 
@@ -106,16 +118,20 @@ def main():
 
     }
 
-    with open("data/tides.json", "w", encoding="utf-8") as file:
+    with open(
+        "data/tides.json",
+        "w",
+        encoding="utf-8"
+    ) as f:
 
         json.dump(
-            result,
-            file,
+            output,
+            f,
             indent=4,
             ensure_ascii=False
         )
 
-    print("tides.json généré.")
+    print("tides.json mis à jour.")
 
 
 if __name__ == "__main__":
