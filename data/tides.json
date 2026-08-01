@@ -1,29 +1,29 @@
 {
     "port": "Royan",
-    "updated": "2026-08-01T21:00:08.533384Z",
+    "updated": "2026-08-01T22:02:49.659957Z",
     "source": "https://maree.info/131",
     "events": [
         {
             "type": "BM",
-            "time": "01h22",
-            "height": "1,37m"
+            "time": "01h55",
+            "height": "1,36m"
         },
         {
             "type": "PM",
-            "time": "07h25",
-            "height": "5,00m",
+            "time": "07h57",
+            "height": "4,99m",
             "coefficient": 83
         },
         {
             "type": "BM",
-            "time": "13h33",
-            "height": "1,46m"
+            "time": "14h07",
+            "height": "1,47m"
         },
         {
             "type": "PM",
-            "time": "19h40",
-            "height": "5,28m",
-            "coefficient": 83
+            "time": "20h16",
+            "height": "5,23m",
+            "coefficient": 82
         }
     ]
 }
